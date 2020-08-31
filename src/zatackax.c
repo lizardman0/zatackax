@@ -145,8 +145,8 @@ void resetPlayer(int player)
 
     switch (player) {
     case 0:
-        p->lkey = SDLK_LEFT; p->rkey = SDLK_RIGHT;
-        p->wkey = SDLK_UP;
+        p->lkey = SDL_SCANCODE_LEFT; p->rkey = SDL_SCANCODE_RIGHT;
+        p->wkey = SDL_SCANCODE_UP;
         break;
     case 1:
         p->lkey = 'z'; p->rkey = 'c'; p->wkey = 'x';
@@ -167,7 +167,7 @@ void resetPlayer(int player)
         p->lkey = 'i'; p->rkey = 'p'; p->wkey = 'o';
         break;
     case 7:
-        p->lkey = SDLK_F1; p->rkey = SDLK_F3; p->wkey = SDLK_F2;
+        p->lkey = SDL_SCANCODE_F1; p->rkey = SDL_SCANCODE_F3; p->wkey = SDL_SCANCODE_F2;
         break;
     default:
         break;
@@ -432,7 +432,7 @@ void setNextKey(unsigned char pedit, unsigned char key)
                 }
                 else {
                     if (event.type == SDL_KEYDOWN) {
-                        k = event.key.keysym.sym;
+                        k = event.key.keysym.scancode;
                     }
                     else {
                         k = event.button.button;
@@ -500,14 +500,14 @@ void setNextName(unsigned char pedit)
             if (!keyDown[k]) {
                 keyDown[k] = 1;
 
-                if (k >= SDLK_EXCLAIM && k <= SDLK_z) {
+                if (k >= SDL_SCANCODE_KP_EXCLAM && k <= SDL_SCANCODE_Z) {
                     if (event.key.keysym.mod & KMOD_LSHIFT ||
                         event.key.keysym.mod & KMOD_RSHIFT)
                         snprintf(p->name + chars, PLAYER_NAME_LEN, "%c", k - 32);
                     else
                         snprintf(p->name + chars, PLAYER_NAME_LEN, "%c", k);
                     ++chars;
-                } else if (k == SDLK_BACKSPACE && chars > 0) {
+                } else if (k == SDL_SCANCODE_BACKSPACE && chars > 0) {
                     --chars;
                     snprintf(p->name + chars, PLAYER_NAME_LEN, "%c", '\0');
                 }
@@ -516,14 +516,14 @@ void setNextName(unsigned char pedit)
             }
 
             if (chars > 0 &&
-                (k == SDLK_ESCAPE || k == SDLK_RETURN ||
-                 k == SDLK_DOWN   || k == SDLK_UP)) {
+                (k == SDL_SCANCODE_ESCAPE || k == SDL_SCANCODE_RETURN ||
+                 k == SDL_SCANCODE_DOWN   || k == SDL_SCANCODE_DOWN)) {
 
                 playSound(SOUND_BEEP, sound);
 
-                if (k == SDLK_DOWN)
+                if (k == SDL_SCANCODE_DOWN)
                     menuPConf.choice++;
-                else if (k == SDLK_UP)
+                else if (k == SDL_SCANCODE_UP)
                     menuPConf.choice = menuPConf.choices - 1;
                 return;
             }
@@ -1506,8 +1506,8 @@ int logicSettingsMenu(void)
         }
         return 1;
     }
-    else if (keyDown[SDLK_BACKSPACE]) {
-        keyDown[SDLK_BACKSPACE] = 0;
+    else if (keyDown[SDL_SCANCODE_BACKSPACE]) {
+        keyDown[SDL_SCANCODE_BACKSPACE] = 0;
         if (menuSettings.choice == 9) {
             playSound(SOUND_BEP, sound);
             scorecap = 0;
@@ -1518,16 +1518,16 @@ int logicSettingsMenu(void)
     /* Special case for the score setting */
     if (menuSettings.choice == 9) {
         int num = -1;
-        if      (keyDown[SDLK_0]) num = 0;
-        else if (keyDown[SDLK_1]) num = 1;
-        else if (keyDown[SDLK_2]) num = 2;
-        else if (keyDown[SDLK_3]) num = 3;
-        else if (keyDown[SDLK_4]) num = 4;
-        else if (keyDown[SDLK_5]) num = 5;
-        else if (keyDown[SDLK_6]) num = 6;
-        else if (keyDown[SDLK_7]) num = 7;
-        else if (keyDown[SDLK_8]) num = 8;
-        else if (keyDown[SDLK_9]) num = 9;
+        if      (keyDown[SDL_SCANCODE_0]) num = 0;
+        else if (keyDown[SDL_SCANCODE_1]) num = 1;
+        else if (keyDown[SDL_SCANCODE_2]) num = 2;
+        else if (keyDown[SDL_SCANCODE_3]) num = 3;
+        else if (keyDown[SDL_SCANCODE_4]) num = 4;
+        else if (keyDown[SDL_SCANCODE_5]) num = 5;
+        else if (keyDown[SDL_SCANCODE_6]) num = 6;
+        else if (keyDown[SDL_SCANCODE_7]) num = 7;
+        else if (keyDown[SDL_SCANCODE_8]) num = 8;
+        else if (keyDown[SDL_SCANCODE_9]) num = 9;
 
         if (num != -1) {
             scorecap = scorecap * 10 + num;
@@ -1536,9 +1536,9 @@ int logicSettingsMenu(void)
             }
             playSound(SOUND_BEEP, sound);
 
-            keyDown[SDLK_0] = keyDown[SDLK_1] = keyDown[SDLK_2] = keyDown[SDLK_3] =
-                keyDown[SDLK_4] = keyDown[SDLK_5] = keyDown[SDLK_6] =
-                keyDown[SDLK_7] = keyDown[SDLK_8] = keyDown[SDLK_9] = 0;
+            keyDown[SDL_SCANCODE_0] = keyDown[SDL_SCANCODE_1] = keyDown[SDL_SCANCODE_2] = keyDown[SDL_SCANCODE_3] =
+                keyDown[SDL_SCANCODE_4] = keyDown[SDL_SCANCODE_5] = keyDown[SDL_SCANCODE_6] =
+                keyDown[SDL_SCANCODE_7] = keyDown[SDL_SCANCODE_8] = keyDown[SDL_SCANCODE_9] = 0;
 
             return 1;
         }
@@ -1653,7 +1653,7 @@ int logicPConfMenu(void)
         switch (menuPConf.choice) {
         case 0:
             // Disable name input with joystick for the time being.
-            if (keyDown[SDLK_SPACE] || keyDown[SDLK_RETURN]) {
+            if (keyDown[SDL_SCANCODE_SPACE] || keyDown[SDL_SCANCODE_RETURN]) {
                 playSound(SOUND_BEEP, sound);
                 setNextName(editPlayer);
             }
@@ -1664,19 +1664,19 @@ int logicPConfMenu(void)
             break;
         case 2:
             playSound(SOUND_BEEP, sound);
-            (&players[editPlayer])->lkey = SDLK_CLEAR;
+            (&players[editPlayer])->lkey = SDL_SCANCODE_CLEAR;
             displayPConfMenu(); /* Update menu before catching key */
             setNextKey(editPlayer, 'l');
             break;
         case 3:
             playSound(SOUND_BEEP, sound);
-            (&players[editPlayer])->wkey = SDLK_CLEAR;
+            (&players[editPlayer])->wkey = SDL_SCANCODE_CLEAR;
             displayPConfMenu(); /* Update menu before catching key */
             setNextKey(editPlayer, 'w');
             break;
         case 4:
             playSound(SOUND_BEEP, sound);
-            (&players[editPlayer])->rkey = SDLK_CLEAR;
+            (&players[editPlayer])->rkey = SDL_SCANCODE_CLEAR;
             displayPConfMenu(); /* Update menu before catching key */
             setNextKey(editPlayer, 'r');
             break;
@@ -1702,8 +1702,8 @@ int logicPConfMenu(void)
             playSound(SOUND_BEEP, sound);
             setColor(editPlayer, 1);
             return 1;
-        } else if (keyDown[SDLK_BACKSPACE]) {
-            keyDown[SDLK_BACKSPACE] = 0;
+        } else if (keyDown[SDL_SCANCODE_BACKSPACE]) {
+            keyDown[SDL_SCANCODE_BACKSPACE] = 0;
             playSound(SOUND_BEEP, sound);
             setNextName(editPlayer);
             return 1;
@@ -2089,14 +2089,14 @@ int main(void)
                     k = axisNumber(event.jaxis) << 4;
                 }
 
-                if (screenFreeze && k == SDLK_RETURN) {
+                if (screenFreeze && k == SDL_SCANCODE_RETURN) {
                     screenFreeze = false;
                     endRound();
                     curScene = &mainMenu;
                     curScene->displayFunc();
                 }
 
-                if ((event.type == SDL_KEYDOWN && k == SDLK_ESCAPE)) {
+                if ((event.type == SDL_KEYDOWN && k == SDL_SCANCODE_ESCAPE)) {
                     screenFreeze = false;
                     if (curScene == &game || curScene == &gameStart)
                         endRound();

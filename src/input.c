@@ -26,7 +26,7 @@ const int BUTTON_NAME_MAX_LEN = 14;
 const Uint8 JOY_ENTER_BUTTON = 1;
 
 // 322 is the number of possible SDL keys (see SDL_keysym.h).
-bool keyDown[322];
+bool keyDown[512];
 
 /*
  * A separate map is kept for each possible joystick (0-7). See the
@@ -122,7 +122,7 @@ int axisNumber(SDL_JoyAxisEvent e)
  */
 bool enterButtonDown(void)
 {
-    if (keyDown[SDLK_SPACE] || keyDown[SDLK_RETURN]) {
+    if (keyDown[SDL_SCANCODE_SPACE] || keyDown[SDL_SCANCODE_RETURN]) {
         return true;
     }
 
@@ -140,8 +140,8 @@ bool enterButtonDown(void)
  */
 void clearEnterButtons(void)
 {
-    keyDown[SDLK_RETURN] = false;
-    keyDown[SDLK_SPACE] = false;
+    keyDown[SDL_SCANCODE_RETURN] = false;
+    keyDown[SDL_SCANCODE_SPACE] = false;
 
     for (unsigned int i = 0; i < numJoys; i++) {
         joyButtonDown[i][JOY_ENTER_BUTTON] = false;
@@ -179,11 +179,12 @@ void clearButton(button b)
  */
 bool menuButtonQuery(enum keySymbol ks)
 {
-    SDLKey lkeys[4][3] =
-        {{SDLK_UP,    SDLK_k, SDLK_p},
-         {SDLK_RIGHT, SDLK_l, SDLK_f},
-         {SDLK_DOWN,  SDLK_j, SDLK_n},
-         {SDLK_LEFT,  SDLK_h, SDLK_b}};
+  SDL_Scancode lkeys[4][3] = {
+    {SDL_SCANCODE_UP, SDL_SCANCODE_K, SDL_SCANCODE_P},
+    {SDL_SCANCODE_RIGHT, SDL_SCANCODE_L, SDL_SCANCODE_F},
+    {SDL_SCANCODE_DOWN, SDL_SCANCODE_J, SDL_SCANCODE_N},
+    {SDL_SCANCODE_LEFT, SDL_SCANCODE_H, SDL_SCANCODE_B}
+  };
 
     for (int i = 0; i < 3; i++) {
         if (keyDown[lkeys[ks][i]]) {
@@ -264,15 +265,15 @@ char *buttonName(button b)
     }
     else {
         switch (b) {
-        case SDLK_UNKNOWN:
+        case SDL_SCANCODE_UNKNOWN:
             snprintf(keyname, BUTTON_NAME_MAX_LEN, "none"); break;
-        case SDLK_LEFT:
+        case SDL_SCANCODE_LEFT:
             snprintf(keyname, BUTTON_NAME_MAX_LEN, "left"); break;
-        case SDLK_RIGHT:
+        case SDL_SCANCODE_RIGHT:
             snprintf(keyname, BUTTON_NAME_MAX_LEN, "right"); break;
-        case SDLK_UP:
+        case SDL_SCANCODE_UP:
             snprintf(keyname, BUTTON_NAME_MAX_LEN, "up"); break;
-        case SDLK_DOWN:
+        case SDL_SCANCODE_DOWN:
             snprintf(keyname, BUTTON_NAME_MAX_LEN, "down"); break;
         case SDLK_SCROLLLOCK:
             snprintf(keyname, BUTTON_NAME_MAX_LEN, "scr-lk"); break;
