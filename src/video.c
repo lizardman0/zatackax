@@ -19,11 +19,19 @@
 
 SDL_Surface *screen = NULL;
 
+SDL_Texture *screenTexture = NULL;
+
+SDL_Window *window = NULL;
+
 SDL_Surface *gameScreen = NULL;
 
-unsigned int WINDOW_W = DEFAULT_WINDOW_W;
+SDL_Texture *gameScreenTexture = NULL;
 
-unsigned int WINDOW_H = DEFAULT_WINDOW_H;
+SDL_Renderer *renderer = NULL;
+
+int WINDOW_W = DEFAULT_WINDOW_W;
+
+int WINDOW_H = DEFAULT_WINDOW_H;
 
 bool screenFreeze = false;
 
@@ -35,10 +43,16 @@ bool screenFreeze = false;
 int initScreen(void)
 {
     SDL_FreeSurface(screen);
-    screen = SDL_SetVideoMode(WINDOW_W, WINDOW_H, SCREEN_BPP,
-                              SDL_SWSURFACE | (fullscreen
-                                               ? SDL_FULLSCREEN
-                                               : SDL_RESIZABLE));
+    // TODO, proper init surface
+    window = SDL_CreateWindow("Zatacka X", SDL_WINDOWPOS_UNDEFINED,
+                     SDL_WINDOWPOS_UNDEFINED,
+                     WINDOW_W,
+                     WINDOW_H,
+                     SDL_WINDOW_OPENGL | (fullscreen ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_RESIZABLE));
+    renderer = SDL_CreateRenderer(window, -1, 0);
+
+    screen = SDL_CreateRGBSurface(0, WINDOW_W, WINDOW_H, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+    screenTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WINDOW_W, WINDOW_H);
 
     SDL_FreeSurface(gameScreen);
     gameScreen = SDL_CreateRGBSurface(SDL_SWSURFACE,
@@ -49,9 +63,17 @@ int initScreen(void)
                                       screen->format->Gmask,
                                       screen->format->Bmask,
                                       0);
-    SDL_SetColorKey(gameScreen, SDL_SRCCOLORKEY, 0);
+    gameScreenTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WINDOW_W, WINDOW_H);
+    SDL_SetColorKey(gameScreen, SDL_TRUE, 0);
 
     initParticleScreen(WINDOW_W, WINDOW_H);
 
-    return (screen == NULL || gameScreen == NULL) ? 0 : 1;
+    return (screen == NULL || gameScreen == NULL || screenTexture == NULL || gameScreenTexture == NULL) ? 0 : 1;
+}
+
+void renderSurface(SDL_Surface* surface) {
+    SDL_UpdateTexture(screenTexture, NULL, surface->pixels, surface->pitch);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, screenTexture, NULL, NULL);
+    SDL_RenderPresent(renderer);
 }

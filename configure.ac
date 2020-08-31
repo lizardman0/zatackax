@@ -13,14 +13,14 @@ AC_PROG_CC_C99
 AC_PROG_MAKE_SET
 
 # Checks for libraries.
-AC_HAVE_LIBRARY([SDL], [],
-  [AC_MSG_ERROR([cannot find library SDL])])
-AC_HAVE_LIBRARY([SDL_image], [],
-  [AC_MSG_ERROR([cannot find library SDL_image])])
-AC_HAVE_LIBRARY([SDL_mixer], [],
-  [AC_MSG_ERROR([cannot find library SDL_mixer])])
-AC_HAVE_LIBRARY([SDL_ttf], [],
-  [AC_MSG_ERROR([cannot find library SDL_ttf])])
+AC_HAVE_LIBRARY([SDL2], [],
+  [AC_MSG_ERROR([cannot find library SDL2])])
+AC_HAVE_LIBRARY([SDL2_image], [],
+  [AC_MSG_ERROR([cannot find library SDL2_image])])
+AC_HAVE_LIBRARY([SDL2_mixer], [],
+  [AC_MSG_ERROR([cannot find library SDL2_mixer])])
+AC_HAVE_LIBRARY([SDL2_ttf], [],
+  [AC_MSG_ERROR([cannot find library SDL2_ttf])])
 AC_HAVE_LIBRARY([m])
 
 # Checks for header files.

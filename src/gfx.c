@@ -64,7 +64,7 @@ bool loadImage(Image i, const char *filename)
         return false;
     }
 
-    images[i] = SDL_DisplayFormatAlpha(loadedImage);
+    images[i] = SDL_ConvertSurfaceFormat(loadedImage, SDL_PIXELFORMAT_ARGB8888, 0);
     if (olvl >= O_DEBUG) {
         printf("Loaded: %s\t(w:%d h:%d bpp:%d)\n", filename, images[i]->w,
                images[i]->h, images[i]->format->BitsPerPixel);

@@ -25,6 +25,7 @@ desktop_DATA = data/zatackax.desktop
 
 appicondir = $(datadir)/icons/hicolor/128x128/apps
 appicon_DATA = data/icons/zatackax.png
+CFLAGS += $(shell sdl2-config --cflags)
 
 devel : CFLAGS += -O0 -g3 -pg -pedantic -Wall -Wextra
 devel : AM_CPPFLAGS = -DDATADIR=\"data\"

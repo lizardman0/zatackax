@@ -2,7 +2,7 @@
 #define PARTICLE_H
 
 #include <math.h>
-#include <SDL/SDL.h>
+#include <SDL.h>
 
 #include "common.h"
 #include "gfx.h"

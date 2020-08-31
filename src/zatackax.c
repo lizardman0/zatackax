@@ -912,9 +912,7 @@ void displayGame(void)
 
     SDL_BlitSurface(gameScreen, NULL, screen, NULL);
 
-    if (SDL_Flip(screen) == -1) {
-        exit(1);
-    }
+    renderSurface(screen);
 }
 
 /**
@@ -968,8 +966,7 @@ void displayGameStart(void)
         }
     }
 
-    if (SDL_Flip(screen) == -1)
-        exit(1);
+    renderSurface(screen);
 }
 
 /**
@@ -988,8 +985,8 @@ void refreshGameScreen(void)
 
     unsigned char *target = gameScreen->pixels;
 
-    for (unsigned int yy = 0; yy < WINDOW_H; ++yy) {
-        for (unsigned int xx = 0; xx < WINDOW_W; ++xx, target += 4) {
+    for (int yy = 0; yy < WINDOW_H; ++yy) {
+        for (int xx = 0; xx < WINDOW_W; ++xx, target += 4) {
             char charat = hitmap[sizeof(bool)
                                  * ((WINDOW_W * yy) + xx)];
             if (charat != 0) {
@@ -1271,8 +1268,8 @@ void displayMainMenu(void)
         SDL_BlitSurface(pballs[MAX_PLAYERS], NULL, screen, &offset);
     }
 
-    if (SDL_Flip(screen) == -1)
-        exit(1);
+
+    renderSurface(screen);
 }
 
 /**
@@ -1416,8 +1413,7 @@ void displayWepMenu(void)
         }
     }
 
-    if (SDL_Flip(screen) == -1)
-        exit(1);
+    renderSurface(screen);
 }
 
 /**
@@ -1599,8 +1595,7 @@ void displaySettingsMenu(void)
 
     displayMenu(c, &menuSettings, 0);
 
-    if (SDL_Flip(screen) == -1)
-        exit(1);
+    renderSurface(screen);
 }
 
 /**
@@ -1644,8 +1639,7 @@ void displayPlayerMenu(void)
 
     displayMenu(c, &menuPlayer, 0);
 
-    if (SDL_Flip(screen) == -1)
-        exit(1);
+    renderSurface(screen);
 }
 
 /**
@@ -1763,8 +1757,7 @@ void displayPConfMenu(void)
 
     displayMenu(c, &menuPConf, 0);
 
-    if (SDL_Flip(screen) == -1)
-        exit(1);
+    renderSurface(screen);
 }
 
 /**
@@ -1937,9 +1930,8 @@ int init(void)
     srand(SDL_GetTicks());
 
     SDL_ShowCursor(SDL_DISABLE);
-    SDL_WM_SetCaption("Zatacka X", "Zatacka X");
     SDL_Surface *icon = loadIcon("icon.bmp");
-    SDL_WM_SetIcon(icon, NULL);
+    // SDL_WM_SetIcon(icon, NULL); // TODO: Re introduce window icon
     SDL_FreeSurface(icon);
 
     return 1;
@@ -2022,8 +2014,8 @@ void exitGame(int status)
     free(parrows);
     free(pballs);
 
-    screen = SDL_SetVideoMode(WINDOW_W, WINDOW_H, SCREEN_BPP,
-                              SDL_SWSURFACE);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
     saveSettings();
 
     exit(status);
@@ -2084,7 +2076,8 @@ int main(void)
 
                 int k = -1;
                 if (event.type == SDL_KEYDOWN) {
-                    k = event.key.keysym.sym;
+                    k = event.key.keysym.scancode;
+                    fprintf(stderr, "Pressed key button: %d\n", k);
                 }
                 else if (event.type == SDL_MOUSEBUTTONDOWN) {
                     k = event.button.button;
@@ -2150,7 +2143,7 @@ int main(void)
                 }
             }
             else if (event.type == SDL_KEYUP) {
-                keyDown[event.key.keysym.sym] = false;
+                keyDown[event.key.keysym.scancode] = false;
             }
             else if (event.type == SDL_MOUSEBUTTONUP) {
                 keyDown[event.button.button] = false;
@@ -2161,9 +2154,8 @@ int main(void)
             else if (event.type == SDL_QUIT) {
                 exitGame(0);
             }
-            else if (event.type == SDL_VIDEORESIZE) {
-                WINDOW_W = event.resize.w;
-                WINDOW_H = event.resize.h;
+            else if (event.type == SDL_WINDOWEVENT_RESIZED) {
+                SDL_GetWindowSize(window, &WINDOW_W, &WINDOW_H);
 
                 if (!initScreen()) {
                     return 1;
@@ -2173,6 +2165,7 @@ int main(void)
                 refreshGameScreen();
             }
         }
+
         if (!screenFreeze) {
             Uint32 timenow = SDL_GetTicks();
             Uint32 delta = timenow - prevtime;
