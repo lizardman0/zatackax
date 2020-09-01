@@ -49,7 +49,7 @@ int initScreen(void)
                      WINDOW_W,
                      WINDOW_H,
                      SDL_WINDOW_OPENGL | (fullscreen ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_RESIZABLE));
-    renderer = SDL_CreateRenderer(window, -1, 0);
+    renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     screen = SDL_CreateRGBSurface(0, WINDOW_W, WINDOW_H, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
     screenTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WINDOW_W, WINDOW_H);
