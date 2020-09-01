@@ -10,4 +10,9 @@ gmon.out
 src/*.o
 zatackax
 /.ccls-cache/
+/.ccls
 /compile_commands.json
+/switch-build/build/
+*.elf
+*.nacp
+*.nro
