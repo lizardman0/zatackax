@@ -70,6 +70,11 @@ bool isJoyButton(button b)
     return ((b >> 9) > 0) && ((b & 0xf0) == 0);
 }
 
+bool isJoyAxisValidMotion(SDL_Event* event) {
+  return (event->type == SDL_JOYAXISMOTION &&
+          (event->jaxis.value > JOYAXIS_DEADZONE || event->jaxis.value < -JOYAXIS_DEADZONE));
+}
+
 /**
  * Return true if button `b` represents a joystick axis.
  */

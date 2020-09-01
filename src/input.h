@@ -39,6 +39,7 @@ enum keySymbol
 
 void openJoysticks(void);
 void closeJoysticks(void);
+bool isJoyAxisValidMotion(SDL_Event*);
 bool isJoyButton(button b);
 bool isJoyAxis(button b);
 int joyIndex(button b);

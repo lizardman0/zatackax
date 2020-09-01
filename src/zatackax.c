@@ -418,7 +418,7 @@ void setNextKey(unsigned char pedit, unsigned char key)
             if (event.type == SDL_KEYDOWN
                     || event.type == SDL_MOUSEBUTTONDOWN
                     || event.type == SDL_JOYBUTTONDOWN
-                    || event.type == SDL_JOYAXISMOTION) {
+                    || isJoyAxisValidMotion(&event)) {
 
                 int k;
                 char *keyname;
