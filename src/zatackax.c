@@ -1211,14 +1211,14 @@ int logicMainMenu(void)
         }
         clearEnterButtons();
         return 1;
-    } else if (menuButtonQuery(KEY_LEFT)) {
+    } else if (menuButtonQuery(ZK_KEY_LEFT)) {
         if (menuMain.choice == 0 && nPlayers > MIN_PLAYERS) {
             --nPlayers;
             playSound(nPlayers - 1, sound);
             deselectWeapons();
         }
         return 1;
-    } else if (menuButtonQuery(KEY_RIGHT)) {
+    } else if (menuButtonQuery(ZK_KEY_RIGHT)) {
         if (!duelmode && menuMain.choice == 0 && nPlayers < MAX_PLAYERS) {
             ++nPlayers;
             playSound(nPlayers - 1, sound);
@@ -1492,14 +1492,14 @@ int logicSettingsMenu(void)
         clearEnterButtons();
         return 1;
     }
-    else if (menuButtonQuery(KEY_LEFT)) {
+    else if (menuButtonQuery(ZK_KEY_LEFT)) {
         if (menuSettings.choice == 9 && scorecap > 0) {
             playSound(SOUND_BEP, sound);
             --scorecap;
         }
         return 1;
     }
-    else if (menuButtonQuery(KEY_RIGHT)) {
+    else if (menuButtonQuery(ZK_KEY_RIGHT)) {
         if (menuSettings.choice == 9 && scorecap < SCORE_CAP_MAX) {
             playSound(SOUND_BEEP, sound);
             ++scorecap;
@@ -1694,11 +1694,11 @@ int logicPConfMenu(void)
         clearEnterButtons();
         return 1;
     } else if (menuPConf.choice == 0) {
-        if (menuButtonQuery(KEY_LEFT)) {
+        if (menuButtonQuery(ZK_KEY_LEFT)) {
             playSound(SOUND_BEEP, sound);
             setColor(editPlayer, 0);
             return 1;
-        } else if (menuButtonQuery(KEY_RIGHT)) {
+        } else if (menuButtonQuery(ZK_KEY_RIGHT)) {
             playSound(SOUND_BEEP, sound);
             setColor(editPlayer, 1);
             return 1;
@@ -1767,12 +1767,12 @@ void displayPConfMenu(void)
  */
 int handleMenu(struct menu *m)
 {
-    if (menuButtonQuery(KEY_DOWN)) {
+    if (menuButtonQuery(ZK_KEY_DOWN)) {
         playSound(SOUND_BEEP, sound);
         ++(m->choice);
         return 1;
     }
-    else if (menuButtonQuery(KEY_UP)) {
+    else if (menuButtonQuery(ZK_KEY_UP)) {
         playSound(SOUND_BEEP, sound);
         --(m->choice);
         return 1;

@@ -31,10 +31,10 @@ enum joyDir
 // Used for multiple menu navigation input sets.
 enum keySymbol
 {
-    KEY_UP = 0,
-    KEY_RIGHT = 1,
-    KEY_DOWN = 2,
-    KEY_LEFT = 3
+    ZK_KEY_UP = 0,
+    ZK_KEY_RIGHT = 1,
+    ZK_KEY_DOWN = 2,
+    ZK_KEY_LEFT = 3
 };
 
 void openJoysticks(void);

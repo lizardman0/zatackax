@@ -194,19 +194,19 @@ bool menuButtonQuery(enum keySymbol ks)
     }
 
     for (unsigned int i = 0; i < numJoys; i++) {
-        if (ks == KEY_UP && joyButtonDown[i][JOY_DIR_UP << 4]) {
+        if (ks == ZK_KEY_UP && joyButtonDown[i][JOY_DIR_UP << 4]) {
             joyButtonDown[i][JOY_DIR_UP << 4] = false;
             return true;
         }
-        if (ks == KEY_RIGHT && joyButtonDown[i][JOY_DIR_RIGHT << 4]) {
+        if (ks == ZK_KEY_RIGHT && joyButtonDown[i][JOY_DIR_RIGHT << 4]) {
             joyButtonDown[i][JOY_DIR_RIGHT << 4] = false;
             return true;
         }
-        if (ks == KEY_DOWN && joyButtonDown[i][JOY_DIR_DOWN << 4]) {
+        if (ks == ZK_KEY_DOWN && joyButtonDown[i][JOY_DIR_DOWN << 4]) {
             joyButtonDown[i][JOY_DIR_DOWN << 4] = false;
             return true;
         }
-        if (ks == KEY_LEFT && joyButtonDown[i][JOY_DIR_LEFT << 4]) {
+        if (ks == ZK_KEY_LEFT && joyButtonDown[i][JOY_DIR_LEFT << 4]) {
             joyButtonDown[i][JOY_DIR_LEFT << 4] = false;
             return true;
         }
