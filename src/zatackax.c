@@ -1936,9 +1936,12 @@ int init(void)
     srand(SDL_GetTicks());
 
     SDL_ShowCursor(SDL_DISABLE);
+
+#ifndef __SWITCH__
     SDL_Surface *icon = loadIcon("icon.bmp");
-    // SDL_WM_SetIcon(icon, NULL); // TODO: Re introduce window icon
+    SDL_SetWindowIcon(window, icon);
     SDL_FreeSurface(icon);
+#endif
 
     return 1;
 }
