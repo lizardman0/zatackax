@@ -2083,7 +2083,7 @@ int main(void)
                     k = event.button.button;
                 }
                 else if (event.type == SDL_JOYBUTTONDOWN) {
-                    k = event.button.button;
+                    k = event.jbutton.button;
                 }
                 else if (event.type == SDL_JOYAXISMOTION) {
                     k = axisNumber(event.jaxis) << 4;
@@ -2112,7 +2112,7 @@ int main(void)
                     if (olvl >= O_DEBUG) {
                         fprintf(stderr, "Pressed joy button: %d\n", k);
                     }
-                    joyButtonDown[event.button.which][k] = true;
+                    joyButtonDown[event.jbutton.which][k] = true;
                 }
                 else if (event.type == SDL_JOYAXISMOTION) {
                     Uint8 jid = event.jaxis.which;
@@ -2149,7 +2149,7 @@ int main(void)
                 keyDown[event.button.button] = false;
             }
             else if (event.type == SDL_JOYBUTTONUP) {
-                joyButtonDown[event.button.which][event.button.button] = false;
+                joyButtonDown[event.jbutton.which][event.button.button] = false;
             }
             else if (event.type == SDL_QUIT) {
                 exitGame(0);
