@@ -2130,12 +2130,14 @@ int main(void)
                 }
                 else if (event.type == SDL_JOYAXISMOTION) {
                     Uint8 jid = event.jaxis.which;
+                    fprintf(stderr, "Joy axis: %d\n", event.jaxis.value);
 
-                    if (event.jaxis.value) {
+                    if (event.jaxis.value > JOYAXIS_DEADZONE || event.jaxis.value < -JOYAXIS_DEADZONE) {
+                        joyButtonDown[jid][k] = true;
+
                         if (olvl >= O_DEBUG) {
                             fprintf(stderr, "Joy axis changed: %d\n", k);
                         }
-                        joyButtonDown[jid][k] = true;
                     }
                     else {
                         if (event.jaxis.axis == JOY_DIR_UP
