@@ -4,8 +4,13 @@
 #define STRBUF  32
 
 /* DEFAULT WINDOW DIMENSIONS */
+#ifdef __SWITCH__
+#define DEFAULT_WINDOW_W    1280
+#define DEFAULT_WINDOW_H    720
+#else
 #define DEFAULT_WINDOW_W    800
 #define DEFAULT_WINDOW_H    600
+#endif
 #define SCREEN_BPP          32
 
 /* PLAYERS */
