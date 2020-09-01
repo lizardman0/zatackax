@@ -2130,7 +2130,6 @@ int main(void)
                 }
                 else if (event.type == SDL_JOYAXISMOTION) {
                     Uint8 jid = event.jaxis.which;
-                    fprintf(stderr, "Joy axis: %d\n", event.jaxis.value);
 
                     if (event.jaxis.value > JOYAXIS_DEADZONE || event.jaxis.value < -JOYAXIS_DEADZONE) {
                         joyButtonDown[jid][k] = true;
