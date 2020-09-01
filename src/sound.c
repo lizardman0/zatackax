@@ -25,8 +25,13 @@ Mix_Chunk *sounds[N_SOUNDS];
  */
 int initSound(void)
 {
+#ifdef __SWITCH__
+    Mix_AllocateChannels(5);
+    return Mix_OpenAudio(48000, AUDIO_S16, 2, 4096);
+#else
     return Mix_OpenAudio(MIX_DEFAULT_FREQUENCY * 2, MIX_DEFAULT_FORMAT, 2,
                          512);
+#endif
 }
 
 /**
