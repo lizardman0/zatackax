@@ -1917,7 +1917,6 @@ int init(void)
         return 0;
 
     openJoysticks();
-    atexit(closeJoysticks);
 
     if (initSound() == -1) {
         if (olvl >= O_NORMAL)
