@@ -38,6 +38,7 @@ bool joyButtonDown[MAX_PLAYERS][128];
 unsigned int numJoys = 0;
 
 SDL_Joystick *joys[MAX_PLAYERS];
+Uint32 lastAnalogMove = 0;
 
 /**
  * Open all connected joysticks for interaction.
@@ -193,23 +194,28 @@ bool menuButtonQuery(enum keySymbol ks)
         }
     }
 
+    Uint32 currentTime = SDL_GetTicks();
+    Uint32 analogMoveDelta = currentTime - lastAnalogMove;
+
     for (unsigned int i = 0; i < numJoys; i++) {
+      if (analogMoveDelta > 200)  {
         if (ks == ZK_KEY_UP && joyButtonDown[i][JOY_DIR_UP << 4]) {
-            joyButtonDown[i][JOY_DIR_UP << 4] = false;
+            lastAnalogMove = currentTime;
             return true;
         }
         if (ks == ZK_KEY_RIGHT && joyButtonDown[i][JOY_DIR_RIGHT << 4]) {
-            joyButtonDown[i][JOY_DIR_RIGHT << 4] = false;
+            lastAnalogMove = currentTime;
             return true;
         }
         if (ks == ZK_KEY_DOWN && joyButtonDown[i][JOY_DIR_DOWN << 4]) {
-            joyButtonDown[i][JOY_DIR_DOWN << 4] = false;
+            lastAnalogMove = currentTime;
             return true;
         }
         if (ks == ZK_KEY_LEFT && joyButtonDown[i][JOY_DIR_LEFT << 4]) {
-            joyButtonDown[i][JOY_DIR_LEFT << 4] = false;
+            lastAnalogMove = currentTime;
             return true;
         }
+      }
     }
 
     return false;
