@@ -16,6 +16,10 @@
  */
 
 #include "zatackax.h"
+#ifdef __SWITCH__
+#include <unistd.h>
+#include <switch.h>
+#endif
 
 static const unsigned int FPS_CAP = 100;
 
@@ -2025,6 +2029,12 @@ void exitGame(int status)
 
 int main(void)
 {
+#ifdef __SWITCH__
+    socketInitializeDefault();
+    nxlinkStdio();
+    romfsInit();
+    chdir("romfs:/");
+#endif
     static Uint32 prevtime = 0;
 
     initPlayers1();

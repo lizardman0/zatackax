@@ -23,8 +23,14 @@
  */
 char *dataFile(const char *dir, const char *name)
 {
+#ifdef __SWITCH__
+    int strlen = snprintf(NULL, 0, "%s/%s", dir, name);
+    char *file = calloc(strlen + 1, sizeof(char));
+    snprintf(file, strlen + 1, "%s/%s", dir, name);
+#else
     int strlen = snprintf(NULL, 0, "%s/%s/%s", DATADIR, dir, name);
     char *file = calloc(strlen + 1, sizeof(char));
     snprintf(file, strlen + 1, "%s/%s/%s", DATADIR, dir, name);
+#endif
     return file;
 }
