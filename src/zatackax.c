@@ -2161,7 +2161,7 @@ int main(void)
                 keyDown[event.button.button] = false;
             }
             else if (event.type == SDL_JOYBUTTONUP) {
-                joyButtonDown[event.jbutton.which][event.button.button] = false;
+                joyButtonDown[event.jbutton.which][event.jbutton.button] = false;
             }
             else if (event.type == SDL_QUIT) {
                 exitGame(0);
