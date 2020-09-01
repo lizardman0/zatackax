@@ -501,6 +501,8 @@ void setNextName(unsigned char pedit)
                 keyDown[k] = 1;
 
                 if (k >= SDL_SCANCODE_KP_EXCLAM && k <= SDL_SCANCODE_Z) {
+                  // TODO: This is always false, but useless on switch since we don't use
+                  // Keyboard
                     if (event.key.keysym.mod & KMOD_LSHIFT ||
                         event.key.keysym.mod & KMOD_RSHIFT)
                         snprintf(p->name + chars, PLAYER_NAME_LEN, "%c", k - 32);
