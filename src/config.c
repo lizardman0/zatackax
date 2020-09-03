@@ -127,8 +127,13 @@ void saveSettings(void)
  */
 void restoreSettings(void)
 {
+#ifdef __SWITCH__
+    char *filename = "switch-settings.cfg";
+    FILE *file = fopen(filename, "r");
+#else
     char *filename = getConfigFile();
     FILE *file = fopen(filename, "r");
+#endif
 
     if (file == NULL) {
         if (olvl >= O_DEBUG) {
@@ -196,6 +201,8 @@ void restoreSettings(void)
         ++line;
     }
 
+#ifndef __SWITCH__
     free(filename);
+#endif
     fclose(file);
 }
