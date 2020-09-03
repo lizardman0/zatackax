@@ -2110,7 +2110,8 @@ int main(void)
                     curScene->displayFunc();
                 }
 
-                if ((event.type == SDL_KEYDOWN && k == SDL_SCANCODE_ESCAPE)) {
+                if ((event.type == SDL_KEYDOWN && k == SDL_SCANCODE_ESCAPE) ||
+                    (event.type == SDL_JOYBUTTONDOWN && k == JOY_EXIT_BUTTON)) {
                     screenFreeze = false;
                     if (curScene == &game || curScene == &gameStart)
                         endRound();

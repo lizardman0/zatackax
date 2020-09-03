@@ -25,6 +25,7 @@
 #define TRY_SPAWN_THIS_HARD 40   /* Try this many times to make a fit */
 
 #define JOYAXIS_DEADZONE    20000
+#define JOY_EXIT_BUTTON     10
 
 /* OUTPUT LEVEL */
 #define O_SILENT    0   /* Be absolutely quiet */
