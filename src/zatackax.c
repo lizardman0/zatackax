@@ -2026,9 +2026,12 @@ void exitGame(int status)
     free(parrows);
     free(pballs);
 
-    SDL_DestroyWindow(window);
     SDL_Quit();
+#ifdef __SWITCH__
+    romfsExit();
+#else
     saveSettings();
+#endif
 
     exit(status);
 }
@@ -2036,8 +2039,6 @@ void exitGame(int status)
 int main(void)
 {
 #ifdef __SWITCH__
-    socketInitializeDefault();
-    nxlinkStdio();
     romfsInit();
     chdir("romfs:/");
 #endif
