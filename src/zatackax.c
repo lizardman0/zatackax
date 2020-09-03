@@ -2126,7 +2126,19 @@ int main(void)
                     if (olvl >= O_DEBUG) {
                         fprintf(stderr, "Pressed joy button: %d\n", k);
                     }
-                    joyButtonDown[event.jbutton.which][k] = true;
+
+                    /*
+                      TODO: input.h/button only uses 4 bits to map joy buttons. Values higher than
+                      that will be mixed with joyaxis values. This is was especially maddening on
+                      switch becasue axis movement also triggers a button press. Pushing left on the
+                      analog stick triggers key 16 down, which ends up (most of the time) being
+                      registered as a joyaxis up. Ideally we could use a separate array for joyAxis
+                      movment, but button econding needs to change too. Maybe use a struct to
+                      improve readbility instead of encoding stuff into int bits.
+                     */
+                    if (k < 16) {
+                        joyButtonDown[event.jbutton.which][k] = true;
+                    }
                 }
                 else if (event.type == SDL_JOYAXISMOTION) {
                     Uint8 jid = event.jaxis.which;
