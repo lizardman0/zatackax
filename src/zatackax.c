@@ -21,7 +21,11 @@
 #include <switch.h>
 #endif
 
+#ifdef __SWITCH__
+static const unsigned int FPS_CAP = 60;
+#else
 static const unsigned int FPS_CAP = 100;
+#endif
 
 struct menu menuMain = {
     3,
