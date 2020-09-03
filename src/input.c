@@ -38,13 +38,30 @@ bool joyButtonDown[MAX_PLAYERS][128];
 unsigned int numJoys = 0;
 
 SDL_Joystick *joys[MAX_PLAYERS];
-Uint32 lastAnalogMove = 0;
+Uint32 lastAnalogMove[MAX_PLAYERS];
+
+bool isAnalogMenuMovementAllowed(int playerId) {
+  Uint32 currentTime = SDL_GetTicks();
+  Uint32 movmentDelta = currentTime - lastAnalogMove[playerId];
+
+  if(movmentDelta > 200) {
+    lastAnalogMove[playerId] = currentTime;
+    return true;
+  } else {
+    return false;
+  }
+}
 
 /**
  * Open all connected joysticks for interaction.
  */
 void openJoysticks(void)
 {
+    // This shouldn't be here
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        lastAnalogMove[i] = 0;
+    }
+
     numJoys = SDL_NumJoysticks();
 
     for (unsigned int i = 0; i < numJoys; i++) {
@@ -199,28 +216,27 @@ bool menuButtonQuery(enum keySymbol ks)
         }
     }
 
-    Uint32 currentTime = SDL_GetTicks();
-    Uint32 analogMoveDelta = currentTime - lastAnalogMove;
-
     for (unsigned int i = 0; i < numJoys; i++) {
-      if (analogMoveDelta > 200)  {
         if (ks == ZK_KEY_UP && joyButtonDown[i][JOY_DIR_UP << 4]) {
-            lastAnalogMove = currentTime;
-            return true;
+            if(isAnalogMenuMovementAllowed(i)) {
+                return true;
+            }
         }
         if (ks == ZK_KEY_RIGHT && joyButtonDown[i][JOY_DIR_RIGHT << 4]) {
-            lastAnalogMove = currentTime;
-            return true;
+            if(isAnalogMenuMovementAllowed(i)) {
+                return true;
+            }
         }
         if (ks == ZK_KEY_DOWN && joyButtonDown[i][JOY_DIR_DOWN << 4]) {
-            lastAnalogMove = currentTime;
-            return true;
+            if(isAnalogMenuMovementAllowed(i)) {
+                return true;
+            }
         }
         if (ks == ZK_KEY_LEFT && joyButtonDown[i][JOY_DIR_LEFT << 4]) {
-            lastAnalogMove = currentTime;
-            return true;
+            if(isAnalogMenuMovementAllowed(i)) {
+                return true;
+            }
         }
-      }
     }
 
     return false;

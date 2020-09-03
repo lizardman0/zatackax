@@ -1300,6 +1300,10 @@ int logicWepMenu(void)
 
     for (p = &players[0], i = 0; i < nPlayers; ++i, ++p) {
         if (buttonDown(p->lkey)) {
+            if(isJoyAxis(p->lkey) && !isAnalogMenuMovementAllowed(i)) {
+              return 0;
+            }
+
             if (p->weapon == 0) {
                 p->weapon = N_WEAPONS - 1;
             }
@@ -1310,6 +1314,10 @@ int logicWepMenu(void)
             return 1;
         }
         else if (buttonDown(p->rkey)) {
+            if(isJoyAxis(p->lkey) && !isAnalogMenuMovementAllowed(i)) {
+              return 0;
+            }
+
             if (p->weapon == N_WEAPONS - 1) {
                 p->weapon = 0;
             }

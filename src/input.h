@@ -37,6 +37,7 @@ enum keySymbol
     ZK_KEY_LEFT = 3
 };
 
+bool isAnalogMenuMovementAllowed(int playerId);
 void openJoysticks(void);
 void closeJoysticks(void);
 bool isJoyAxisValidMotion(SDL_Event*);
