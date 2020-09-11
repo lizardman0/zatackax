@@ -44,7 +44,8 @@ INCLUDES	:=	../src
 ROMFS			:=	../data
 
 APP_TITLE   := zatackax
-APP_AUTHOR  := calabs
+APP_AUTHOR  := lizardman
+APP_VERSION := 0.0.1
 
 #---------------------------------------------------------------------------------
 # options for code generation
